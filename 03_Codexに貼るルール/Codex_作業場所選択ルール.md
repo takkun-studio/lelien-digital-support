@@ -1,26 +1,24 @@
 # Codex 作業場所選択ルール
 
-Codex作業では、クラウド作業・GitHub作業・Macローカル作業を混同しない。
+Codex作業では、GitHubリポジトリ作業とMacローカル作業の入り口を逆に扱わない。
 
 ## 結論
 
 ```text
 GitHubリポジトリを触る作業
-→ 作業場所は選ばない
-→ Codex上で対象リポジトリを選ぶ
-→ PR作成・md更新・README修正・リポジトリ整理向き
+→ 対象リポジトリを選ぶ
+→ ai-work-rules / lelien-digital-support などを指定する
+→ PR作成・md更新・README修正・リポジトリ内整理向き
 
 Macローカルのファイルを触る作業
-→ 作業場所を対象フォルダにする
-→ Downloads / iCloud Drive / 任意フォルダなどを開く
-→ Finder上の実ファイル整理・移動・コピー向き
+→ 余計なリポジトリやプロジェクトを選ばない
+→ 何も選ばず、指示で対象パスを指定する方が通りやすい場合がある
+→ Downloads / iCloud Drive / AI作業倉庫 などFinder上の実ファイル整理向き
 ```
 
 ## GitHub作業
 
-GitHub作業では、ローカルフォルダを開く必要はない。
-
-対象リポジトリを選ぶ。
+GitHub作業では、対象リポジトリを選ぶ。
 
 例：
 
@@ -38,9 +36,15 @@ kdp-image-generator
 - PR作成
 - リポジトリ内ファイル整理
 
+この場合、MacのDownloadsやiCloud Driveを作業場所として開く必要はない。
+
 ## Macローカル作業
 
-Mac内のファイルを触る場合は、作業場所として対象フォルダを開く。
+Mac内のファイルを触る場合は、GitHubリポジトリを選ばない。
+
+DownloadsやiCloud Driveの整理は、リポジトリ作業ではなくFinder上の実ファイル操作。
+
+対象は指示内で明示する。
 
 例：
 
@@ -59,8 +63,9 @@ iCloud Drive/AI作業倉庫
 
 ## 禁止
 
-- GitHub作業なのに、無理にローカル作業場所を開かせない
+- GitHub作業なのに、ローカルDownloadsやiCloud Drive整理として扱わない
 - ローカル整理なのに、GitHubリポジトリを選ばせない
+- GitHubリポジトリ選択とMacローカル作業場所選択を混同しない
 - Codexクラウド、Codexアプリ、ターミナルCLIを混同しない
 - `codex` コマンドが無い状態で、CLI前提の説明をしない
 
@@ -68,10 +73,10 @@ iCloud Drive/AI作業倉庫
 
 ```text
 リポジトリを直す話
-→ リポジトリ選択
-→ 作業場所なしで進める
+→ 対象リポジトリを選ぶ
+→ ai-work-rules 等を指定する
 
 Mac上のファイルを整理する話
-→ 対象フォルダを作業場所に選ぶ
-→ DownloadsやiCloud Driveを開く
+→ リポジトリを選ばない
+→ 何も選ばず、指示でDownloads/iCloud Drive等の対象パスを指定する
 ```
