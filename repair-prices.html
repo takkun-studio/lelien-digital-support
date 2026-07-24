@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="lelienデジタルサポート墨田のiPhone修理料金表。画面修理、バッテリー交換などの料金目安をご案内します。">
+  <title>iPhone修理料金表｜lelienデジタルサポート墨田</title>
+  <style>
+    *{box-sizing:border-box}
+    :root{--green:#4aad6a;--green-dark:#347a50;--orange:#f08040;--cream:#fdfcf7;--sand:#e8e2d4;--text:#443b35;--sub:#6f675f;--line:#06c755;--white:#fff;--shadow:0 5px 18px rgba(70,50,30,.08)}
+    html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
+    body{width:100%;max-width:100%;margin:0;font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Meiryo",sans-serif;background:var(--cream);color:var(--text);line-height:1.7;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    .container{width:calc(100% - 32px);max-width:920px;min-width:0;margin:auto}
+    header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--sand);backdrop-filter:blur(8px)}
+    .header-inner{min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .logo{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9rem;font-weight:900;color:var(--green-dark)}
+    .header-line{display:inline-flex;flex-shrink:0;align-items:center;justify-content:center;padding:8px 14px;border-radius:999px;background:var(--line);color:#fff;font-size:.84rem;font-weight:900;white-space:nowrap}
+    .hero{padding:42px 0 30px;background:linear-gradient(145deg,#fff 0%,#fff7ea 48%,#edf7f1 100%);border-bottom:1px solid var(--sand)}
+    .eyebrow{display:inline-flex;padding:5px 13px;border-radius:999px;background:#edf7f1;color:var(--green-dark);font-size:.82rem;font-weight:900}
+    h1{margin:12px 0 8px;color:var(--green-dark);font-size:clamp(1.8rem,6vw,2.7rem);line-height:1.35}
+    .lead{margin:0;color:var(--sub);font-size:.96rem}
+    .price-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 0}
+    .summary-card{padding:15px 12px;background:#fff;border:1px solid var(--sand);border-radius:16px;box-shadow:var(--shadow);text-align:center}
+    .summary-card span{display:block;color:var(--sub);font-size:.77rem}
+    .summary-card strong{display:block;color:var(--green-dark);font-size:1.13rem}
+    main{padding:28px 0 44px}
+    .campaign{margin-bottom:28px;padding:20px;background:#fff;border:2px solid #f1b17f;border-radius:18px;box-shadow:var(--shadow)}
+    .campaign h2{margin:0 0 6px;color:var(--orange);font-size:1.28rem}
+    .campaign-lead{margin:0 0 14px;font-weight:900}
+    .discount-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .discount-card{padding:13px;border-radius:13px;background:#fff8ef;border:1px solid #f3d2b8}
+    .discount-card strong{display:block;color:#b85f29;font-size:1.04rem}
+    .discount-card span{display:block;color:var(--sub);font-size:.8rem}
+    .campaign-note{margin:12px 0 0;color:var(--sub);font-size:.78rem}
+    .section-title{margin:0 0 12px;color:var(--green-dark);font-size:1.35rem}
+    .table-card{width:100%;max-width:100%;min-width:0;overflow:hidden;margin-bottom:26px;background:#fff;border:1px solid var(--sand);border-radius:18px;box-shadow:var(--shadow)}
+    .table-scroll{width:100%;max-width:100%;overflow-x:auto}
+    table{width:100%;border-collapse:collapse;white-space:nowrap}
+    th,td{padding:13px 14px;border-bottom:1px solid #eee8dd;text-align:right;font-size:.9rem}
+    th:first-child,td:first-child{text-align:left}
+    thead th{background:#edf7f1;color:var(--green-dark);font-size:.82rem}
+    tbody tr:last-child td{border-bottom:0}
+    td:not(:first-child){font-weight:800}
+    .other-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:26px}
+    .other-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;background:#fff;border:1px solid var(--sand);border-radius:14px}
+    .other-card span{font-size:.88rem}
+    .other-card strong{color:var(--green-dark);font-size:.95rem;white-space:nowrap}
+    .android{margin-bottom:26px;padding:18px;background:#f5f3ef;border:1px solid var(--sand);border-radius:16px}
+    .android h2{margin:0 0 5px;font-size:1.05rem}
+    .android p{margin:0;color:var(--sub);font-size:.86rem}
+    .notes{margin-bottom:28px;padding:18px;background:#fff;border:1px solid var(--sand);border-radius:16px}
+    .notes h2{margin:0 0 8px;color:var(--green-dark);font-size:1.05rem}
+    .notes ul{margin:0;padding-left:1.25em;color:var(--sub);font-size:.82rem}
+    .cta{padding:24px 20px;background:linear-gradient(135deg,#fff8e8,#eef9e9);border:1px solid var(--sand);border-radius:18px;text-align:center}
+    .cta h2{margin:0 0 6px;color:var(--green-dark);font-size:1.25rem}
+    .cta p{margin:0 0 16px;color:var(--sub);font-size:.88rem}
+    .cta-buttons{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 19px;border-radius:999px;font-weight:900}
+    .btn-line{background:var(--line);color:#fff}
+    .btn-back{background:#fff;color:var(--green-dark);border:1px solid var(--green)}
+    footer{padding:20px 16px;background:#fff;border-top:1px solid var(--sand);color:var(--sub);text-align:center;font-size:.74rem}
+    @media(max-width:640px){
+      .container{width:calc(100% - 24px)}
+      .hero{padding:30px 0 24px}
+      .price-summary{grid-template-columns:1fr;gap:8px}
+      .summary-card{display:flex;align-items:center;justify-content:space-between;text-align:left}
+      .discount-grid,.other-grid{grid-template-columns:1fr}
+      .campaign{padding:17px}
+      th,td{padding:12px 11px;font-size:.82rem}
+      .cta-buttons{flex-direction:column}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a class="logo" href="index.html">🌿 lelienデジタルサポート墨田</a>
+      <a class="header-line" href="https://lin.ee/64OitiY" target="_blank" rel="noopener noreferrer">LINEで相談</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">税込・部品代・作業費込みの目安</span>
+      <h1>iPhone修理料金表</h1>
+      <p class="lead">機種と症状をLINEで送っていただければ、正確な料金と作業時間をご案内します。</p>
+      <div class="price-summary">
+        <div class="summary-card"><span>画面割れ</span><strong>6,980円〜</strong></div>
+        <div class="summary-card"><span>液晶不良</span><strong>8,980円〜</strong></div>
+        <div class="summary-card"><span>バッテリー交換</span><strong>5,980円〜</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="container">
+      <section class="campaign" aria-labelledby="campaign-title">
+        <h2 id="campaign-title">オープン記念 LINE友だち限定</h2>
+        <p class="campaign-lead">対象修理が最大3,000円OFF</p>
+        <div class="discount-grid">
+          <div class="discount-card">
+            <strong>3,000円OFF</strong>
+            <span>iPhone 13 Pro系・14シリーズ・15シリーズの画面修理</span>
+          </div>
+          <div class="discount-card">
+            <strong>2,000円OFF</strong>
+            <span>SE2 / SE3・11・12シリーズ・13 / 13 miniの画面修理</span>
+          </div>
+          <div class="discount-card">
+            <strong>1,000円OFF</strong>
+            <span>バッテリー交換・その他の対象修理</span>
+          </div>
+          <div class="discount-card">
+            <strong>通常も1,000円OFF</strong>
+            <span>記念キャンペーン終了後もLINE友だち限定で継続</span>
+          </div>
+        </div>
+        <p class="campaign-note">※割引の併用はできません。診断のみ、部品取り寄せ品、一部修理は対象外です。</p>
+      </section>
+
+      <section aria-labelledby="iphone-price-title">
+        <h2 class="section-title" id="iphone-price-title">機種別料金</h2>
+        <div class="table-card">
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr><th>機種</th><th>画面割れ</th><th>液晶不良</th><th>バッテリー</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>iPhone SE2 / SE3</td><td>6,980円〜</td><td>8,980円〜</td><td>5,980円〜</td></tr>
+                <tr><td>iPhone 11</td><td>8,980円〜</td><td>11,800円〜</td><td>6,980円〜</td></tr>
+                <tr><td>iPhone 12 / 12 mini</td><td>11,800円〜</td><td>14,800円〜</td><td>7,980円〜</td></tr>
+                <tr><td>iPhone 12 Pro / Pro Max</td><td>12,800円〜</td><td>16,800円〜</td><td>7,980円〜</td></tr>
+                <tr><td>iPhone 13 / 13 mini</td><td>13,800円〜</td><td>17,800円〜</td><td>8,480円〜</td></tr>
+                <tr><td>iPhone 13 Pro / Pro Max</td><td>18,800円〜</td><td>24,800円〜</td><td>8,980円〜</td></tr>
+                <tr><td>iPhone 14 / 14 Plus</td><td>15,800円〜</td><td>19,800円〜</td><td>8,980円〜</td></tr>
+                <tr><td>iPhone 14 Pro / Pro Max</td><td>22,800円〜</td><td>29,800円〜</td><td>9,980円〜</td></tr>
+                <tr><td>iPhone 15 / 15 Plus</td><td>22,800円〜</td><td>25,800円〜</td><td>9,980円〜</td></tr>
+                <tr><td>iPhone 15 Pro / Pro Max</td><td>28,800円〜</td><td>34,800円〜</td><td>10,980円〜</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="other-price-title">
+        <h2 class="section-title" id="other-price-title">その他の修理・サポート</h2>
+        <div class="other-grid">
+          <div class="other-card"><span>充電口修理</span><strong>12,800円〜</strong></div>
+          <div class="other-card"><span>リアカメラ修理</span><strong>16,800円〜</strong></div>
+          <div class="other-card"><span>カメラレンズ交換</span><strong>7,980円〜</strong></div>
+          <div class="other-card"><span>背面ガラス修理</span><strong>12,800円〜</strong></div>
+          <div class="other-card"><span>水没診断</span><strong>3,300円〜</strong></div>
+          <div class="other-card"><span>データ移行サポート</span><strong>3,300円〜</strong></div>
+          <div class="other-card"><span>初期診断</span><strong>修理依頼で無料</strong></div>
+          <div class="other-card"><span>診断のみ</span><strong>3,300円</strong></div>
+        </div>
+      </section>
+
+      <section class="android" aria-labelledby="android-title">
+        <h2 id="android-title">Android修理について</h2>
+        <p>当面はiPhone中心の対応です。Androidは料金表の対象外で、機種・症状により要相談となります。</p>
+      </section>
+
+      <section class="notes" aria-labelledby="notes-title">
+        <h2 id="notes-title">ご確認ください</h2>
+        <ul>
+          <li>表示価格は税込の目安です。機種・症状・部品在庫により変わる場合があります。</li>
+          <li>データを残した修理を目指しますが、データの保証はできません。事前のバックアップをおすすめします。</li>
+          <li>修理後はメーカー保証の対象外となる場合があります。</li>
+          <li>正確な料金と作業時間は、受付前にご案内します。</li>
+        </ul>
+      </section>
+
+      <section class="cta">
+        <h2>機種名と症状を送ってください</h2>
+        <p>例：「iPhone 13、画面が割れた」「iPhone 12、充電の減りが早い」</p>
+        <div class="cta-buttons">
+          <a class="btn btn-line" href="https://lin.ee/64OitiY" target="_blank" rel="noopener noreferrer">LINEで料金を確認する</a>
+          <a class="btn btn-back" href="index.html">トップへ戻る</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>© lelienデジタルサポート墨田</footer>
+</body>
+</html>

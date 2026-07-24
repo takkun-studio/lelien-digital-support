@@ -3,6 +3,7 @@ set -euo pipefail
 rm -rf public
 mkdir -p public
 cp index.html public/
+cp repair-prices.html public/
 cp courses.html public/
 cp senior-university.html public/
 cp line-menu-sample.html public/
