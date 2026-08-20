@@ -1,0 +1,35 @@
+(()=>{
+const K='neko-uriage-v3';
+const D=[{id:'p1',name:'アンブレラマーカー',price:500,cost:null,stock:null},{id:'p2',name:'ノアにゃん',price:500,cost:null,stock:null},{id:'p3',name:'せんべい',price:300,cost:null,stock:null},{id:'p4',name:'その他',price:500,cost:null,stock:null}];
+let x=load(),sel=null,timer;
+const $=id=>document.getElementById(id);
+const yen=n=>'¥'+Number(n||0).toLocaleString('ja-JP');
+const day=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const nice=k=>{const[y,m,d]=k.split('-').map(Number),z=new Date(y,m-1,d);return`${m}月${d}日 (${['日','月','火','水','木','金','土'][z.getDay()]})`};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function load(){try{const r=localStorage.getItem(K);if(r){const q=JSON.parse(r);return{products:Array.isArray(q.products)&&q.products.length?q.products:D.map(v=>({...v})),sales:Array.isArray(q.sales)?q.sales:[]}}}catch(e){}return{products:D.map(v=>({...v})),sales:[]}}
+function save(){localStorage.setItem(K,JSON.stringify(x))}
+function today(){return x.sales.filter(s=>s.day===day())}
+function sum(a){let cash=0,paypay=0,cost=0,all=a.length>0;a.forEach(s=>{if(s.method==='cash')cash+=s.price;else paypay+=s.price;if(typeof s.cost==='number')cost+=s.cost;else all=false});return{total:cash+paypay,cash,paypay,count:a.length,profit:all?cash+paypay-cost:null}}
+function sold(id){return today().filter(s=>s.productId===id).length}
+function toast(m){$('toast').textContent='🐱 '+m;$('toast').classList.add('show');clearTimeout(timer);timer=setTimeout(()=>$('toast').classList.remove('show'),1400)}
+function render(){const s=sum(today());$('date').textContent=nice(day());$('total').textContent=yen(s.total);$('cash').textContent=yen(s.cash);$('paypay').textContent=yen(s.paypay);$('count').textContent=s.count+'件'+(s.profit!==null?' ・ 利益 '+yen(s.profit):'');$('grid').innerHTML=x.products.map(p=>`<button class="product" type="button" data-prod="${esc(p.id)}"><div class="name">${esc(p.name)}</div><div class="price">${yen(p.price)}</div>${Number.isInteger(p.stock)?`<div class="stock">残り ${Math.max(0,p.stock-sold(p.id))}個</div>`:''}</button>`).join('');$('settingsList').innerHTML=x.products.map(p=>`<div class="setting-row"><div class="info"><div class="name">${esc(p.name)}</div><div class="price">${yen(p.price)}</div></div><button class="edit-btn" type="button" data-edit="${esc(p.id)}">編集</button></div>`).join('');renderHist()}
+function renderHist(){const g={};x.sales.forEach(s=>(g[s.day]??=[]).push(s));const ds=Object.keys(g).sort().reverse();$('hist').innerHTML=ds.length?ds.map(d=>{const items=[...g[d]].sort((a,b)=>new Date(b.at)-new Date(a.at)),s=sum(items),rows=items.map(v=>{const z=new Date(v.at),t=`${String(z.getHours()).padStart(2,'0')}:${String(z.getMinutes()).padStart(2,'0')}`,m=v.method==='cash'?'現金':'PayPay';return`<div class="sale-row"><div class="sale-main"><div class="sale-name">${esc(v.name)}　${yen(v.price)}</div><div class="sale-meta">${t} ・ ${m}</div></div><button class="sale-delete" type="button" data-sale-delete="${esc(v.id)}">削除</button></div>`}).join('');return`<div class="history-day"><button class="history-toggle" type="button" data-h="${d}" aria-expanded="false"><div class="history-date">${nice(d)}</div><div class="history-total">${yen(s.total)}</div><div class="history-meta">${s.count}件 ・ 現金 ${yen(s.cash)} ・ PayPay ${yen(s.paypay)}</div></button><div class="detail" id="det-${d}">${rows}</div></div>`}).join(''):'<div class="empty">まだ売上はないよ</div>'}
+document.addEventListener('click',e=>{
+const b=e.target.closest('[data-prod]');if(b){sel=x.products.find(p=>p.id===b.dataset.prod);if(!sel)return;$('chosen').textContent=sel.name;$('chosenPrice').textContent=yen(sel.price);$('paybg').classList.add('open');return}
+const p=e.target.closest('[data-pay]');if(p&&sel){const n=new Date();x.sales.push({id:Date.now()+'-'+Math.random().toString(36).slice(2,7),productId:sel.id,name:sel.name,price:sel.price,cost:typeof sel.cost==='number'?sel.cost:null,method:p.dataset.pay,at:n.toISOString(),day:day(n)});save();$('paybg').classList.remove('open');sel=null;toast('売れたよ！');render();return}
+const del=e.target.closest('[data-sale-delete]');if(del){const v=x.sales.find(s=>s.id===del.dataset.saleDelete);if(!v)return;if(!confirm(`${v.name} ${yen(v.price)} の売上を削除しますか？`))return;x.sales=x.sales.filter(s=>s.id!==v.id);save();toast('売上を1件削除したよ');render();return}
+const ed=e.target.closest('[data-edit]');if(ed){openEdit(ed.dataset.edit);return}
+const h=e.target.closest('[data-h]');if(h){const d=$('det-'+h.dataset.h),o=d.classList.toggle('open');h.setAttribute('aria-expanded',o?'true':'false')}
+});
+$('cancel').onclick=()=>{$('paybg').classList.remove('open');sel=null};
+$('paybg').onclick=e=>{if(e.target===$('paybg'))$('cancel').click()};
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));b.classList.add('active');$(b.dataset.v).classList.add('active');scrollTo(0,0)});
+function openEdit(id){const p=id?x.products.find(q=>q.id===id):null;$('editTitle').textContent=p?'商品を編集':'商品を追加';$('pid').value=p?.id||'';$('pname').value=p?.name||'';$('price').value=p?.price??'';$('cost').value=Number.isInteger(p?.cost)?p.cost:'';$('stock').value=Number.isInteger(p?.stock)?p.stock:'';$('deleteProduct').style.display=p?'block':'none';$('editbg').classList.add('open')}
+function closeEdit(){$('editbg').classList.remove('open')}
+$('add').onclick=()=>openEdit();$('close').onclick=closeEdit;$('editbg').onclick=e=>{if(e.target===$('editbg'))closeEdit()};
+$('form').onsubmit=e=>{e.preventDefault();const id=$('pid').value,o={id:id||'p-'+Date.now(),name:$('pname').value.trim(),price:Math.max(0,+$('price').value||0),cost:$('cost').value===''?null:Math.max(0,+$('cost').value||0),stock:$('stock').value===''?null:Math.max(0,Math.floor(+$('stock').value||0))};if(!o.name)return;if(id){const i=x.products.findIndex(p=>p.id===id);if(i>=0)x.products[i]=o}else x.products.push(o);save();closeEdit();toast('保存したよ');render()};
+$('deleteProduct').onclick=()=>{const id=$('pid').value;if(!id)return;x.products=x.products.filter(p=>p.id!==id);if(!x.products.length)x.products=D.map(v=>({...v}));save();closeEdit();toast('商品を削除したよ');render()};
+$('csv').onclick=()=>{if(!x.sales.length){toast('まだ売上がないよ');return}const rows=[['日付','時刻','商品名','金額','支払い方法']];x.sales.forEach(s=>{const d=new Date(s.at);rows.push([s.day,`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`,s.name,String(s.price),s.method==='cash'?'現金':'PayPay'])});const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n'),u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='うりあげ-'+day()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)};
+render();
+})();
