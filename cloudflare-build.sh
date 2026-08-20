@@ -9,3 +9,4 @@ cp courses.html public/
 cp senior-university.html public/
 cp line-menu-sample.html public/
 cp flyer-lp-sample.html public/
+cp marche-sales.html public/
