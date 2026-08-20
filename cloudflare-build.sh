@@ -10,3 +10,5 @@ cp senior-university.html public/
 cp line-menu-sample.html public/
 cp flyer-lp-sample.html public/
 cp marche-sales.html public/
+cp marche-sales.css public/
+cp marche-sales.js public/
