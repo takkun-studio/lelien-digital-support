@@ -1,5 +1,6 @@
 (()=>{
-const K='neko-uriage-v3';
+const K='neko-uriage';
+const LEGACY_KEYS=['neko-uriage','neko-uriage-v4','neko-uriage-v3','neko-uriage-v2'];
 const D=[{id:'p1',name:'アンブレラマーカー',price:500,cost:null,stock:null},{id:'p2',name:'ノアにゃん',price:500,cost:null,stock:null},{id:'p3',name:'せんべい',price:300,cost:null,stock:null},{id:'p4',name:'その他',price:500,cost:null,stock:null}];
 let x=load(),sel=null,timer;
 const $=id=>document.getElementById(id);
@@ -7,8 +8,24 @@ const yen=n=>'¥'+Number(n||0).toLocaleString('ja-JP');
 const day=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const nice=k=>{const[y,m,d]=k.split('-').map(Number),z=new Date(y,m-1,d);return`${m}月${d}日 (${['日','月','火','水','木','金','土'][z.getDay()]})`};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function load(){try{const r=localStorage.getItem(K);if(r){const q=JSON.parse(r);return{products:Array.isArray(q.products)&&q.products.length?q.products:D.map(v=>({...v})),sales:Array.isArray(q.sales)?q.sales:[]}}}catch(e){}return{products:D.map(v=>({...v})),sales:[]}}
-function save(){localStorage.setItem(K,JSON.stringify(x))}
+function cloneDefault(){return D.map(v=>({...v}))}
+function load(){
+  const states=[];
+  for(const key of LEGACY_KEYS){
+    try{const raw=localStorage.getItem(key);if(!raw)continue;const q=JSON.parse(raw);if(q&&typeof q==='object')states.push(q)}catch(e){}
+  }
+  if(!states.length)return{products:cloneDefault(),sales:[]};
+  let products=cloneDefault(),maxProducts=0;
+  const salesMap=new Map();
+  for(const q of states){
+    if(Array.isArray(q.products)&&q.products.length>maxProducts){products=q.products;maxProducts=q.products.length}
+    if(Array.isArray(q.sales))for(const s of q.sales){const key=s.id||[s.day,s.at,s.name,s.price,s.method].join('|');if(!salesMap.has(key))salesMap.set(key,s)}
+  }
+  const data={products,sales:[...salesMap.values()]};
+  const raw=JSON.stringify(data);for(const key of LEGACY_KEYS)try{localStorage.setItem(key,raw)}catch(e){}
+  return data;
+}
+function save(){const raw=JSON.stringify(x);for(const key of LEGACY_KEYS)try{localStorage.setItem(key,raw)}catch(e){}}
 function today(){return x.sales.filter(s=>s.day===day())}
 function sum(a){let cash=0,paypay=0,cost=0,all=a.length>0;a.forEach(s=>{if(s.method==='cash')cash+=s.price;else paypay+=s.price;if(typeof s.cost==='number')cost+=s.cost;else all=false});return{total:cash+paypay,cash,paypay,count:a.length,profit:all?cash+paypay-cost:null}}
 function sold(id){return today().filter(s=>s.productId===id).length}
@@ -20,8 +37,7 @@ const b=e.target.closest('[data-prod]');if(b){sel=x.products.find(p=>p.id===b.da
 const p=e.target.closest('[data-pay]');if(p&&sel){const n=new Date();x.sales.push({id:Date.now()+'-'+Math.random().toString(36).slice(2,7),productId:sel.id,name:sel.name,price:sel.price,cost:typeof sel.cost==='number'?sel.cost:null,method:p.dataset.pay,at:n.toISOString(),day:day(n)});save();$('paybg').classList.remove('open');sel=null;toast('売れたよ！');render();return}
 const del=e.target.closest('[data-sale-delete]');if(del){const v=x.sales.find(s=>s.id===del.dataset.saleDelete);if(!v)return;if(!confirm(`${v.name} ${yen(v.price)} の売上を削除しますか？`))return;x.sales=x.sales.filter(s=>s.id!==v.id);save();toast('売上を1件削除したよ');render();return}
 const ed=e.target.closest('[data-edit]');if(ed){openEdit(ed.dataset.edit);return}
-const h=e.target.closest('[data-h]');if(h){const d=$('det-'+h.dataset.h),o=d.classList.toggle('open');h.setAttribute('aria-expanded',o?'true':'false')}
-});
+const h=e.target.closest('[data-h]');if(h){const d=$('det-'+h.dataset.h),o=d.classList.toggle('open');h.setAttribute('aria-expanded',o?'true':'false')}});
 $('cancel').onclick=()=>{$('paybg').classList.remove('open');sel=null};
 $('paybg').onclick=e=>{if(e.target===$('paybg'))$('cancel').click()};
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(n=>n.classList.remove('active'));document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));b.classList.add('active');$(b.dataset.v).classList.add('active');scrollTo(0,0)});
@@ -29,7 +45,7 @@ function openEdit(id){const p=id?x.products.find(q=>q.id===id):null;$('editTitle
 function closeEdit(){$('editbg').classList.remove('open')}
 $('add').onclick=()=>openEdit();$('close').onclick=closeEdit;$('editbg').onclick=e=>{if(e.target===$('editbg'))closeEdit()};
 $('form').onsubmit=e=>{e.preventDefault();const id=$('pid').value,o={id:id||'p-'+Date.now(),name:$('pname').value.trim(),price:Math.max(0,+$('price').value||0),cost:$('cost').value===''?null:Math.max(0,+$('cost').value||0),stock:$('stock').value===''?null:Math.max(0,Math.floor(+$('stock').value||0))};if(!o.name)return;if(id){const i=x.products.findIndex(p=>p.id===id);if(i>=0)x.products[i]=o}else x.products.push(o);save();closeEdit();toast('保存したよ');render()};
-$('deleteProduct').onclick=()=>{const id=$('pid').value;if(!id)return;x.products=x.products.filter(p=>p.id!==id);if(!x.products.length)x.products=D.map(v=>({...v}));save();closeEdit();toast('商品を削除したよ');render()};
+$('deleteProduct').onclick=()=>{const id=$('pid').value;if(!id)return;x.products=x.products.filter(p=>p.id!==id);if(!x.products.length)x.products=cloneDefault();save();closeEdit();toast('商品を削除したよ');render()};
 $('csv').onclick=()=>{if(!x.sales.length){toast('まだ売上がないよ');return}const rows=[['日付','時刻','商品名','金額','支払い方法']];x.sales.forEach(s=>{const d=new Date(s.at);rows.push([s.day,`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`,s.name,String(s.price),s.method==='cash'?'現金':'PayPay'])});const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n'),u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='うりあげ-'+day()+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)};
 render();
 })();
