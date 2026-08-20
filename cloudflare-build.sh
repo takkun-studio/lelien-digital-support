@@ -13,3 +13,4 @@ cp marche-sales.html public/
 cp marche-sales.css public/
 cp marche-sales.js public/
 cp chatora-face.jpg public/
+cp chatora-face2.jpg public/
